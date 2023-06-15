@@ -1,4 +1,6 @@
-﻿using Data;
+﻿using System.Reflection.Metadata;
+using Data;
+using Domain;
 
 class Program
 {
@@ -6,7 +8,18 @@ class Program
     {
         Console.WriteLine("Hello, World!");
 
-        DbContextProduct context = new DbContextProduct();
+        using (var db = new DbContextProduct())
+        {
+            var data = new Loja()
+            {
+                Descricao = "Test2",
+                Nome = "s2",
+            };
+            db.Lojas.Add(data);
 
+
+            db.Clientes.Add(new Cliente() { Nome = "teste" });
+            db.SaveChanges();
+        }
     }
 }
